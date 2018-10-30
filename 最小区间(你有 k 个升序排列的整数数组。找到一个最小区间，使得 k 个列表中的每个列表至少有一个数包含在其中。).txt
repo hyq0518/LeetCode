@@ -1,0 +1,70 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+class Solution {
+public:
+	vector<int> findmaxmin(vector<int> heap)
+	{
+		int min, max;
+		int wz=0;
+		min = 999999;
+		max = -999999;
+		vector<int> result;
+		for (int i = 0; i < heap.size(); i++)
+		{
+			if (heap[i] < min)
+			{
+				min = heap[i];
+				wz = i;
+			}
+			if (heap[i]> max)
+			{
+				max = heap[i];
+			}
+		}
+		result.push_back(min);
+		result.push_back(wz);
+		result.push_back(max);
+		return result;
+	}
+	vector<int> smallestRange(vector<vector<int>>& nums) {
+		vector<int> heap;
+		vector<int> min;
+		vector<vector<int>> maxmin;
+		vector<int> result(2);
+		result = { -999999,999999 };
+		for (int i = 0; i < nums.size(); i++)
+		{
+			heap.push_back(nums[i][0]);
+			nums[i].erase(nums[i].begin());
+		}
+		while (true)
+		{
+			vector<int> result1;
+			result1 = this->findmaxmin(heap);
+			vector<int> temp;
+			temp.push_back(result1[0]);
+			temp.push_back(result1[2]);
+			maxmin.push_back(temp);
+			if (nums[result1[1]].empty())
+			{
+				break;
+			}
+			else
+			{
+				heap[result1[1]] = nums[result1[1]][0];
+				nums[result1[1]].erase(nums[result1[1]].begin());
+			}
+		}
+		for (int i = 0; i < maxmin.size(); i++)
+		{
+			if (maxmin[i][1] - maxmin[i][0] < result[1] - result[0])
+			{
+				result[1]= maxmin[i][1];
+				result[0] = maxmin[i][0];
+			}
+		}
+		return result;
+	}
+
+};
