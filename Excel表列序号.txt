@@ -1,0 +1,15 @@
+	int titleToNumber(string s) {
+		int result=0;
+		string::iterator t;
+		t = s.begin();
+		int len = s.length();
+		while (t != s.end())
+		{
+			int num=0;
+			num = *t - 'A' + 1;
+			result += pow(26, len - 1)*num;
+			len--;
+			t++;
+		}
+		return result;
+	}
