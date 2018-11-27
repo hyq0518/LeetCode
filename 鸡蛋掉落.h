@@ -19,9 +19,10 @@ dp[m-1][k] += dp[m-1][k-1] + 1
 int superEggDrop(int K, int N) {
 	vector<int> dp(K+1);
 	int step = 0;
-	for (; dp[K] < N; step++) {
+	while(dp[K] < N) {
 		for (int i = K; i > 0; i--)
 			dp[i] += (1+ dp[i-1]);
+		step++；
 	}
 	return step;
 }
