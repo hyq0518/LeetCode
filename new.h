@@ -1,27 +1,38 @@
 /*
-计算m个鸡蛋k个step所能到达的最高楼层dp[m][k]
-
-如果在某个楼层丢鸡蛋破了，那么就继续检查dp[m-1][k-1]
-
-如果没破，那就检查dp[m][k-1];
-
-状态转移方程为：dp[m][k]=1+dp[m-1][k-1]+dp[m][k-1];
-
-dp[m][k] = dp[m-1][k-1] + dp[m-1][k] + 1 其实只用到dp[m-1][k]一次
-我们可以把dp[m-1][k]写在左边
-dp[m-1][k] = dp[m-1][k-1] + dp[m-1][k] + 1
-等价于
-dp[m-1][k] += dp[m-1][k-1] + 1
-
-把m看做循环次数，那么方程变为dp[k]+=dp[k-1]+1;
-
+归并排序
 */
-int superEggDrop(int K, int N) {
-	vector<int> dp(K+1);
-	int step = 0;
-	for (; dp[K] < N; step++) {
-		for (int i = K; i > 0; i--)
-			dp[i] += (1+ dp[i-1]);
+ListNode * mergeKLists(vector<ListNode*>& lists) {
+	if (lists.size() == 0)
+		return NULL;
+	map<int, int> listmap;
+	ListNode *res=NULL,*nt=NULL;
+	for (int i = 0; i < lists.size(); i++)
+	{
+		ListNode* head = lists[i];
+		while (head!=NULL)
+		{
+			listmap[head->val]++;
+			head = head->next;
+		}
 	}
-	return step;
+	map<int, int>::iterator iter = listmap.begin();
+	while (iter!=listmap.end())
+	{
+		for (int i = 0; i < (*iter).second; i++)
+		{
+			ListNode* ln = new ListNode((*iter).first);
+			if (res==NULL)
+			{
+				res = ln;
+				nt = res;
+			}
+			else
+			{
+				nt->next = ln;
+				nt = nt->next;
+			}
+		}
+		iter++;
+	}
+	return res;
 }
